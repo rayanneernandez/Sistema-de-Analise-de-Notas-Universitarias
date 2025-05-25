@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - University Grade Analysis System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #1a3a6c;
+            --secondary: #3b7ea1;
+            --accent: #f8a01c;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --light: #f8f9fa;
+            --dark: #343a40;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+        }
+        
+        .sidebar {
+            background-color: var(--primary);
+            color: white;
+            height: 100vh;
+            position: fixed;
+            width: 250px;
+            transition: all 0.3s;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .sidebar-header {
+            padding: 1.5rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .sidebar-nav {
+            padding: 1rem 0;
+        }
+        
+        .sidebar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 0.75rem 1.5rem;
+            margin-bottom: 0.25rem;
+            border-radius: 0;
+            transition: all 0.2s;
+        }
+        
+        .sidebar-nav .nav-link:hover {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .sidebar-nav .nav-link.active {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-left: 4px solid var(--accent);
+        }
+        
+        .sidebar-nav .nav-link i {
+            margin-right: 0.75rem;
+        }
+        
+        .main-content {
+            margin-left: 250px;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+        
+        .stat-card {
+            border-radius: 1rem;
+            border: none;
+            box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .chart-container {
+            border-radius: 1rem;
+            background: white;
+            box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+        }
+        
+        .recent-table {
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05);
+        }
+        
+        .top-nav {
+            height: 60px;
+            background-color: white;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        }
+        
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h4 class="mb-0"><i class="bi bi-graph-up me-2"></i>Grade Analysis</h4>
+        </div>
+        <div class="sidebar-nav">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" href="{{ url_for('dashboard') }}">
+                        <i class="bi bi-speedometer2"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('students') }}">
+                        <i class="bi bi-people"></i> Students
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('courses') }}">
+                        <i class="bi bi-book"></i> Courses
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('reports') }}">
+                        <i class="bi bi-file-earmark-bar-graph"></i> Reports
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('upload') }}">
+                        <i class="bi bi-upload"></i> Upload Data
+                    </a>
+                </li>
+                <li class="nav-item mt-5">
+                    <a class="nav-link" href="{{ url_for('logout') }}">
+                        <i class="bi bi-box-arrow-right"></i> Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0">Dashboard</h2>
+            <div class="d-flex align-items-center">
+                <div class="user-avatar me-2">
+                    {{ current_user.name[0] }}
+                </div>
+                <div>
+                    <span class="d-block">{{ current_user.name }}</span>
+                    <small class="text-muted">{{ current_user.role.capitalize() }}</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-4">
+            <div class="col-md-3">
+                <div class="card stat-card h-100">
+                    <div class="card-body d-flex align-items-center">
+                        <div class="stat-icon bg-primary-subtle text-primary me-3">
+                            <i class="bi bi-mortarboard-fill fs-4"></i>
+                        </div>
+                        <div>
+                            <h6 class="card-title text-muted mb-0">Total Students</h6>
+                            <h3 class="mt-2 mb-0">{{ total_students }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stat-card h-100">
+                    <div class="card-body d-flex align-items-center">
+                        <div class="stat-icon bg-success-subtle text-success me-3">
+                            <i class="bi bi-book-fill fs-4"></i>
+                        </div>
+                        <div>
+                            <h6 class="card-title text-muted mb-0">Total Courses</h6>
+                            <h3 class="mt-2 mb-0">{{ total_courses }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stat-card h-100">
+                    <div class="card-body d-flex align-items-center">
+                        <div class="stat-icon bg-warning-subtle text-warning me-3">
+                            <i class="bi bi-graph-up-arrow fs-4"></i>
+                        </div>
+                        <div>
+                            <h6 class="card-title text-muted mb-0">Average Grade</h6>
+                            <h3 class="mt-2 mb-0">{{ stats.average_grade }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stat-card h-100">
+                    <div class="card-body d-flex align-items-center">
+                        <div class="stat-icon bg-danger-subtle text-danger me-3">
+                            <i class="bi bi-exclamation-triangle fs-4"></i>
+                        </div>
+                        <div>
+                            <h6 class="card-title text-muted mb-0">At-Risk Students</h6>
+                            <h3 class="mt-2 mb-0">{{ stats.at_risk_count }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-4">
+            <div class="col-md-8">
+                <div class="chart-container">
+                    <h5 class="mb-4">Department Distribution</h5>
+                    <canvas id="departmentChart" height="250"></canvas>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="chart-container h-100">
+                    <h5 class="mb-4">Grade Distribution</h5>
+                    <canvas id="gradeChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="mb-0">Top Performing</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <h6 class="text-muted">Top Department</h6>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5>{{ stats.top_department }}</h5>
+                                <span class="badge text-bg-success fs-6">{{ stats.top_department_avg }}</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h6 class="text-muted">Top Course</h6>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5>{{ stats.top_course }}</h5>
+                                <span class="badge text-bg-success fs-6">{{ stats.top_course_avg }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Recent Grades</h5>
+                        <a href="{{ url_for('reports') }}" class="btn btn-sm btn-outline-primary">View All</a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Student</th>
+                                    <th>Course</th>
+                                    <th>Grade</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for grade in recent_grades %}
+                                <tr>
+                                    <td>{{ grade.student.full_name }}</td>
+                                    <td>{{ grade.course.code }}</td>
+                                    <td>
+                                        <span class="badge {% if grade.numeric_grade >= 80 %}text-bg-success{% elif grade.numeric_grade >= 70 %}text-bg-warning{% else %}text-bg-danger{% endif %}">
+                                            {{ grade.letter_grade }}
+                                        </span>
+                                    </td>
+                                    <td>{{ grade.date_added.strftime('%Y-%m-%d') }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Department Distribution Chart
+        const deptCtx = document.getElementById('departmentChart').getContext('2d');
+        const departmentChart = new Chart(deptCtx, {
+            type: 'bar',
+            data: {
+                labels: JSON.parse('{{ dept_data|safe }}'),
+                datasets: [{
+                    label: 'Number of Students',
+                    data: JSON.parse('{{ dept_counts|safe }}'),
+                    backgroundColor: [
+                        'rgba(26, 58, 108, 0.7)',
+                        'rgba(59, 126, 161, 0.7)',
+                        'rgba(100, 151, 177, 0.7)',
+                        'rgba(140, 176, 193, 0.7)',
+                        'rgba(179, 201, 209, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(26, 58, 108, 1)',
+                        'rgba(59, 126, 161, 1)',
+                        'rgba(100, 151, 177, 1)',
+                        'rgba(140, 176, 193, 1)',
+                        'rgba(179, 201, 209, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Grade Distribution Chart
+        const gradeCtx = document.getElementById('gradeChart').getContext('2d');
+        const gradeChart = new Chart(gradeCtx, {
+            type: 'doughnut',
+            data: {
+                labels: JSON.parse('{{ grade_labels|safe }}'),
+                datasets: [{
+                    data: JSON.parse('{{ grade_counts|safe }}'),
+                    backgroundColor: [
+                        '#4CAF50',
+                        '#8BC34A',
+                        '#CDDC39',
+                        '#FFEB3B',
+                        '#FFC107',
+                        '#FF9800',
+                        '#FF5722'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Grade Analysis System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary: #1a3a6c;
+            --secondary: #3b7ea1;
+            --accent: #f8a01c;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --light: #f8f9fa;
+            --dark: #343a40;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 4rem 0;
+            border-radius: 0 0 2rem 2rem;
+        }
+        
+        .hero h1 {
+            font-weight: 700;
+            font-size: 2.5rem;
+        }
+        
+        .feature-card {
+            border-radius: 1rem;
+            border: none;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            background-color: rgba(26, 58, 108, 0.1);
+            color: var(--primary);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .btn-primary:hover {
+            background-color: #14315c;
+            border-color: #14315c;
+        }
+        
+        .footer {
+            background-color: var(--primary);
+            color: white;
+            padding: 2rem 0;
+        }
+    </style>
+</head>
+<body>
+    <header class="hero text-center">
+        <div class="container">
+            <h1 class="display-4 mb-3">University Grade Analysis System</h1>
+            <p class="lead mb-4">A comprehensive solution for tracking, analyzing, and visualizing academic performance</p>
+            <a href="{{ url_for('login') }}" class="btn btn-light btn-lg px-4 me-md-2">Login to Dashboard</a>
+        </div>
+    </header>
+
+    <main class="container py-5">
+        <section class="mb-5">
+            <h2 class="text-center mb-4">Empower Your Academic Decisions</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card feature-card p-4">
+                        <div class="feature-icon">
+                            <i class="bi bi-graph-up fs-3"></i>
+                        </div>
+                        <h3 class="h5">Comprehensive Analytics</h3>
+                        <p class="text-muted">Gain insights into student performance with interactive visualizations and detailed reports.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card feature-card p-4">
+                        <div class="feature-icon">
+                            <i class="bi bi-people fs-3"></i>
+                        </div>
+                        <h3 class="h5">Student Tracking</h3>
+                        <p class="text-muted">Identify at-risk students early and track performance trends across semesters.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card feature-card p-4">
+                        <div class="feature-icon">
+                            <i class="bi bi-file-earmark-bar-graph fs-3"></i>
+                        </div>
+                        <h3 class="h5">Customizable Reports</h3>
+                        <p class="text-muted">Generate and export tailored reports for departments, courses, or individual students.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-5">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h2 class="mb-4">Transform Raw Data Into Actionable Insights</h2>
+                    <p class="lead mb-4">Our system helps university faculty and administrators make data-driven decisions to improve academic outcomes.</p>
+                    <ul class="list-unstyled">
+                        <li class="mb-3"><i class="bi bi-check-circle-fill text-success me-2"></i> Easy data import from existing systems</li>
+                        <li class="mb-3"><i class="bi bi-check-circle-fill text-success me-2"></i> Real-time analytics dashboard</li>
+                        <li class="mb-3"><i class="bi bi-check-circle-fill text-success me-2"></i> Trend analysis across terms and departments</li>
+                        <li class="mb-3"><i class="bi bi-check-circle-fill text-success me-2"></i> Secure, role-based access control</li>
+                    </ul>
+                </div>
+                <div class="col-lg-6">
+                    <img src="https://images.pexels.com/photos/7103/writing-notes-idea-conference.jpg" alt="Data analysis" class="img-fluid rounded-3 shadow-lg">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>University Grade Analysis System</h4>
+                    <p>A comprehensive solution for academic performance tracking and analysis.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p>&copy; 2025 University Grade Analysis System. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
