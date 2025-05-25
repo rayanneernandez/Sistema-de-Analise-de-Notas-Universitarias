@@ -1,85 +1,51 @@
-# University Grade Analysis System
+# 🎓 University Grade Analysis System
 
-A comprehensive Python web application designed to help universities track, analyze, and visualize student academic performance.
+Um sistema inteligente e completo para **análise de desempenho acadêmico universitário**, desenvolvido em Python. Ideal para instituições que desejam visualizar tendências, identificar alunos em risco e tomar decisões baseadas em dados.
 
-## Features
+---
 
-- **Data Management**:
-  - Import grade data from CSV/Excel files
-  - Track students, courses, departments, and terms
-  - Secure data handling with proper authentication
+## ✨ Funcionalidades
 
-- **Analytics**:
-  - Interactive grade distribution visualizations
-  - Department performance comparisons
-  - Course performance trends over time
-  - Student performance tracking with early warning indicators
+### 📊 **Gestão e Análise de Dados**
+- Importação de notas via arquivos CSV/Excel
+- Rastreamento de alunos, cursos, departamentos e semestres
+- Processamento seguro com autenticação de usuários
 
-- **Reporting**:
-  - Customizable reports by course, department, or term
-  - Export capabilities for reports and visualizations
-  - Identify at-risk students
+### 📈 **Visualizações e Indicadores**
+- Gráficos interativos de distribuição de notas
+- Comparações por departamento e curso ao longo do tempo
+- Acompanhamento individual de alunos com alertas de desempenho
 
-- **Security**:
-  - Role-based access control
-  - Secure authentication
-  - Data privacy protection
+### 📝 **Relatórios Personalizados**
+- Relatórios por curso, período ou departamento
+- Exportação de dados e gráficos
+- Identificação de estudantes em situação de risco
 
-## Technology Stack
+### 🔐 **Segurança**
+- Controle de acesso por função (admin/docente)
+- Autenticação segura e proteção de dados sensíveis
 
-- **Backend**: Flask, SQLAlchemy
-- **Database**: SQLite (can be upgraded to PostgreSQL)
-- **Data Processing**: Pandas, NumPy
-- **Visualization**: Matplotlib, Seaborn, Chart.js
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+- **Backend**: Flask, SQLAlchemy  
+- **Banco de Dados**: SQLite (compatível com PostgreSQL)  
+- **Análise de Dados**: Pandas, NumPy  
+- **Visualização**: Matplotlib, Seaborn, Chart.js  
 - **Frontend**: Bootstrap 5, JavaScript
 
-## Installation
+---
 
-1. Clone the repository
-2. Install dependencies:
-   ```
-   pip install -r requirements.txt
-   ```
-3. Run the application:
-   ```
-   python app.py
-   ```
+## 🚀 Como Rodar o Projeto
 
-## Initial Setup
+```bash
+# Clone o repositório
+git clone https://github.com/seu-usuario/seu-repo.git
+cd seu-repo
 
-The system creates a default admin user with the following credentials:
-- **Email**: admin@university.edu
-- **Password**: adminpass
+# Instale as dependências
+pip install -r requirements.txt
 
-Use these credentials to log in for the first time and then you can add additional users.
-
-## Data Import Format
-
-To import grade data, prepare a CSV or Excel file with the following columns:
-- student_id (required)
-- first_name (required)
-- last_name (required)
-- email (optional)
-- department (required)
-- course_code (required)
-- course_name (optional)
-- credits (optional)
-- grade (required) - numeric value
-
-## Reports
-
-The system offers the following report types:
-- Grade Distribution
-- Department Performance
-- Course Comparison
-- Term Trends
-- Student Performance
-- At-Risk Students
-
-## Development
-
-This project uses Flask's development server for testing purposes. For production deployment, consider using a production-ready WSGI server like Gunicorn.
-
-## License
-
-MIT License
+# Rode o sistema
+python app.py
