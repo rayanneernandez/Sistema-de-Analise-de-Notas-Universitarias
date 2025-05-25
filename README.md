@@ -1,4 +1,4 @@
-# 🎓 University Grade Analysis System
+# 🎓 Sistema de análise de notas universitárias
 
 Um sistema inteligente e completo para **análise de desempenho acadêmico universitário**, desenvolvido em Python. Ideal para instituições que desejam visualizar tendências, identificar alunos em risco e tomar decisões baseadas em dados.
 
