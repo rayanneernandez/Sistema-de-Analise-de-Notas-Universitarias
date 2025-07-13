@@ -37,15 +37,3 @@ Um sistema inteligente e completo para **análise de desempenho acadêmico unive
 
 ---
 
-## 🚀 Como Rodar o Projeto
-
-```bash
-# Clone o repositório
-git clone https://github.com/seu-usuario/seu-repo.git
-cd seu-repo
-
-# Instale as dependências
-pip install -r requirements.txt
-
-# Rode o sistema
-python app.py
